@@ -8,6 +8,8 @@ TagManager:
   - Projectile
   - Wall
   - Checkpoint
+  - CheckpointBatch
+  - BonusBatch
   layers:
   - Default
   - TransparentFX

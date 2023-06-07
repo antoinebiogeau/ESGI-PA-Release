@@ -16,9 +16,9 @@ public class PlayerUI : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(GetPlayerInfo());
+        /*StartCoroutine(GetPlayerInfo());
         turnText = transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-        rankText = transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
+        rankText = transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();*/
     }
     
     void Update()
@@ -28,16 +28,17 @@ public class PlayerUI : MonoBehaviour
 
     private void updateTurns()
     {
-        if (!_loaded) return;
+        /*if (!_loaded) return;
         info = loop.PlayerInfo[player];
         turnText.text = "Turn : " + info.turnCount + "/2";
-        rankText.text = "Rank : " + (loop.PlayersRank.IndexOf(player) + 1);
+        rankText.text = "Rank : " + (loop.PlayersRank.IndexOf(player) + 1);*/
     }
 
     private IEnumerator GetPlayerInfo()
     {
-        yield return new WaitForSeconds(1);
+        /*yield return new WaitForSeconds(1);
         info = loop.PlayerInfo[player];
-        _loaded = true;
+        _loaded = true;*/
+        yield break;
     }
 }

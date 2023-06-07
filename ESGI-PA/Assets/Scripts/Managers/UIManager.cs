@@ -7,9 +7,9 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private GameLoop loop;
+    /*[SerializeField] private GameLoop loop;
     [SerializeField] private GameObject[] uiList;
-    [SerializeField] private RaceConfig config;
+    [SerializeField] private GameConfiguration gameConfig;
     public GameObject[] Players;
 
     private void Start()
@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
     public IEnumerator SetUIConfig()
     {
         yield return new WaitForSeconds(0.1f);
-        switch (config.devices.Count)
+        switch (gameConfig.devices.Count)
         {
             case 1:
                 uiList[0].SetActive(true);
@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
                 uiList[3].SetActive(true);
                 break;
         }
-        LinkUI(config.devices.Count);
+        LinkUI(gameConfig.devices.Count);
     }
 
     private void LinkUI(int players)
@@ -48,5 +48,5 @@ public class UIManager : MonoBehaviour
             uiList[players - 1].gameObject.transform.GetChild(i).gameObject.GetComponent<PlayerUI>().player =
                 Players[i];
         }
-    }
+    }*/
 }

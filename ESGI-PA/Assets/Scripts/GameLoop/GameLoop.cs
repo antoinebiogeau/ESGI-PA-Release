@@ -15,7 +15,11 @@ public struct PlayerState
 
 public class GameLoop : MonoBehaviour
 {
-    [SerializeField] private List<Checkpoint> checkpoints;
+    [SerializeField] private List<Checkpoint> _checkpoints;
+    [SerializeField] private RaceConfiguration raceConfig;
+    
+
+    /*[SerializeField] private List<Checkpoint> checkpoints;
     private GameObject testIndex;
     public List<Checkpoint> Checkpoints
     {
@@ -95,5 +99,5 @@ public class GameLoop : MonoBehaviour
         if (!obj.CompareTag("Player")) return;
         PlayersRank.Add(obj);
         PlayerInfo.Add(obj, new PlayerState());
-    }
+    }*/
 }

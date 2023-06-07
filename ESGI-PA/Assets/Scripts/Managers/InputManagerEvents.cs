@@ -12,7 +12,7 @@ public class InputManagerEvents : MonoBehaviour
 {
     private const int MAX_DEVICES = 4;
 
-    [SerializeField] private RaceConfig raceConfig;
+    [SerializeField] private GameConfiguration gameConfig;
 
     [SerializeField] private MenuController menu;
     
@@ -104,6 +104,6 @@ public class InputManagerEvents : MonoBehaviour
 
     private void OnDestroy()
     {
-        raceConfig.devices = activeDevices;
+        gameConfig.devices = activeDevices;
     }
 }

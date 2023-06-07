@@ -3251,7 +3251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98374e608498ec040958e073450619f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raceConfig: {fileID: 11400000, guid: fb80246374d65f344bab77ea54ea4651, type: 2}
+  gameConfig: {fileID: 11400000, guid: 89467c740d5e6be418c316a2f2a8c436, type: 2}
   menu: {fileID: 1130406737}
 --- !u!4 &1009362303
 Transform:
