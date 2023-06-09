@@ -1,37 +1,35 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]private GameLoop gameloop;
+    private List<Checkpoint> _checkpoints;
 
-    public GameLoop Gameloop
+    public List<Checkpoint> Checkpoints
     {
-        get => gameloop;
-        set => gameloop = value;
+        get => _checkpoints;
+        set => _checkpoints = value;
     }
 
-    [SerializeField]private int turnCount;
-
-    public int TurnCount
-    {
-        get => turnCount;
-        set => turnCount = value;
-    }
+    [SerializeField] private int currentCheckpoint = 0;
 
     [SerializeField]private int currentTurn;
-    
-    [SerializeField]private int score;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int CurrentTurn => currentTurn;
 
-    // Update is called once per frame
-    void Update()
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        Debug.Log("Triggering");
+        if (other.TryGetComponent<Checkpoint>(out Checkpoint checkpoint))
+        {
+            var checkpointIndex = _checkpoints.IndexOf(checkpoint);
+            if (checkpointIndex < _checkpoints.Count / 2 && currentCheckpoint > _checkpoints.Count / 2)
+            {
+                currentTurn++;
+            }
+            currentCheckpoint = checkpointIndex;
+        }
     }
 }

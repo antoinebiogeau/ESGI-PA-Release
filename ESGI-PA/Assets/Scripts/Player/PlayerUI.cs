@@ -11,7 +11,7 @@ public class PlayerUI : MonoBehaviour
     public TextMeshProUGUI turnText;
     public TextMeshProUGUI rankText;
 
-    private PlayerState info;
+    //private PlayerState info;
     private bool _loaded = false;
 
     void Start()

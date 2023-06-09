@@ -49,8 +49,8 @@ public class RaceLoader : MonoBehaviour
         {
             GameObject bot = Instantiate(playerPrefab);
             bot.TryGetComponent<Player>(out var playerInfo);
-            playerInfo.Gameloop = loop;
-            playerInfo.TurnCount = config.turnCount;
+            // playerInfo.Gameloop = loop;
+            // playerInfo.TurnCount = config.turnCount;
             bot.GetComponent<PlayerInput>().DeactivateInput();
             bot.GetComponent<PhysicCharacter>().camera.gameObject.SetActive(false);
         }
@@ -64,9 +64,11 @@ public class RaceLoader : MonoBehaviour
         //loop.AddPlayer(player.gameObject);
         //uiManager.LinkToUI(player.gameObject);
         SetCameraLayout(player.GetComponent<PhysicCharacter>().camera.GetComponent<Camera>());
+        
         player.TryGetComponent<Player>(out var playerInfo);
-        playerInfo.Gameloop = loop;
-        playerInfo.TurnCount = config.turnCount;
+        loop.AddPlayer(playerInfo);
+        // playerInfo.Gameloop = loop;
+        // playerInfo.TurnCount = config.turnCount;
         
 
         player.gameObject.transform.position = spawningPosition[playerJoined];

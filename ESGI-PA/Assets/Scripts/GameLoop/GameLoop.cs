@@ -1,24 +1,36 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public struct PlayerState
-{
-    public int turnCount;
-    public int currentCheckpoint;
-    public int lastCheckpoint;
-}
-
 public class GameLoop : MonoBehaviour
 {
-    [SerializeField] private List<Checkpoint> _checkpoints;
     [SerializeField] private RaceConfiguration raceConfig;
-    
+    [SerializeField] private List<Player> players;
+    [SerializeField] private List<Checkpoint> checkpoints;
 
+
+    private void Update()
+    {
+        if (!CheckEndOfGame()) return;
+        Debug.Log("Game has ended");
+    }
+
+    public void AddPlayer(Player player)
+    {
+        player.Checkpoints = checkpoints;
+        players.Add(player);
+    }
+
+
+    private bool CheckEndOfGame()
+    {
+        return players.All(player => player.CurrentTurn >= raceConfig.turnCount);
+    }
     /*[SerializeField] private List<Checkpoint> checkpoints;
     private GameObject testIndex;
     public List<Checkpoint> Checkpoints
