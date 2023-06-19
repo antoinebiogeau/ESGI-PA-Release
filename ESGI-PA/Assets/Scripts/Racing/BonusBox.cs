@@ -56,8 +56,8 @@ public class BonusBox : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         isTaken = true;
-        GameObject vehicle = other.GetComponent<PhysicCharacter>().vehicle = new GameObject();
-        other.GetComponent<PhysicCharacter>().vehicle =
+        GameObject vehicle = other.GetComponent<PhysicCharacter>().Vehicle = new GameObject();
+        other.GetComponent<PhysicCharacter>().Vehicle =
             vehicles[Random.Range(0, vehicles.Count)]; //replace with random vehicle
     }
 }

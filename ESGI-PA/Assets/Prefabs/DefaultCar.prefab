@@ -49,9 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adf8f52614c71a44a8d15604163647ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vehicle: {fileID: 1472848424178709160}
-  body: {fileID: 6251980933766321693}
-  input: {fileID: 7286510229522652965}
+  components:
+    vehicle: {fileID: 1472848424178709160}
+    body: {fileID: 6251980933766321693}
+    input: {fileID: 7286510229522652965}
   stats:
     speed: 5
     weight: 10
@@ -60,6 +61,7 @@ MonoBehaviour:
     maxHealth: 80
     isImmune: 0
   boostAmount: 20
+  lastCheckpoint: {fileID: 0}
 --- !u!114 &7286510229522652965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +141,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 17deb01ac348dba4dabdaaa7a82dfe25, type: 2}
+  - {fileID: 2100000, guid: 800b0a63dce957e47b9f244b1438aaec, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

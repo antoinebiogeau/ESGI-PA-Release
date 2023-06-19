@@ -24,14 +24,22 @@ public struct VehicleStats
     public int isImmune;
 }
 
+[Serializable]
+public struct VehicleComponents
+{
+    
+    [SerializeField] public Transform vehicle;
+    [SerializeField] public Rigidbody body;
+    [SerializeField] public PlayerInput input;
+    [SerializeField] public Player player;
+}
+
 public class PhysicsVehicle : MonoBehaviour
 {
     // Start is called before the first frame update
-    [InspectorLabel("Components")]
-    [SerializeField] private Transform vehicle;
-    [SerializeField] private Rigidbody body;
-    public PlayerInput input;
-    
+    [SerializeField] private VehicleComponents components;
+
+    public VehicleComponents Components => components;
 
     [SerializeField] private VehicleStats stats;
     
@@ -70,12 +78,12 @@ public class PhysicsVehicle : MonoBehaviour
     {
         CheckHealth();
      
-        if (input.actions["Respawn"].IsPressed() && !_isGrounded && body.velocity.magnitude < 1f) Respawn();
-        _defaultAxis = input.actions["Movement"].ReadValue<Vector2>();
-        _axis = input.actions["Movement"].ReadValue<Vector2>() * (Time.deltaTime * 50000f);
-        _isDrifting = input.actions["Drift"].IsPressed();
-        _isBoosting = input.actions["Booster"].IsPressed();
-        _usingBonus = input.actions["Bonus"].IsPressed();
+        if (components.input.actions["Respawn"].IsPressed() && !_isGrounded && components.body.velocity.magnitude < 1f) Respawn();
+        _defaultAxis = components.input.actions["Movement"].ReadValue<Vector2>();
+        _axis = components.input.actions["Movement"].ReadValue<Vector2>() * (Time.deltaTime * 50000f);
+        _isDrifting = components.input.actions["Drift"].IsPressed();
+        _isBoosting = components.input.actions["Booster"].IsPressed();
+        _usingBonus = components.input.actions["Bonus"].IsPressed();
     }
 
     private void FixedUpdate()
@@ -101,39 +109,39 @@ public class PhysicsVehicle : MonoBehaviour
     private void Move()
     {
         if (!_isGrounded) return;
-        Vector3 force = (vehicle.forward * (_defaultAxis.y * 45 * stats.speed * (_isBoosting? 1.5f : 1f)));
+        Vector3 force = (components.vehicle.forward * (_defaultAxis.y * 45 * stats.speed * (_isBoosting? 1.5f : 1f)));
         if (_axis != Vector2.zero)
         {
-            vehicle.rotation *= Quaternion.Euler(new Vector3(0,stats.rotationSpeed * 0.025f,0) * (_defaultAxis.x * 45));
+            components.vehicle.rotation *= Quaternion.Euler(new Vector3(0,stats.rotationSpeed * 0.025f,0) * (_defaultAxis.x * 45));
         }
-        var rotation = vehicle.rotation;
+        var rotation = components.vehicle.rotation;
         transform.rotation = Quaternion.Lerp(rotation,
-            Quaternion.FromToRotation(vehicle.up, _groundInfo.normal) * rotation, 0.2f);
-        body.AddForce(force, ForceMode.Acceleration);
+            Quaternion.FromToRotation(components.vehicle.up, _groundInfo.normal) * rotation, 0.2f);
+        components.body.AddForce(force, ForceMode.Acceleration);
     }
 
     private void Drift()
     {
         if (!_isGrounded) return;
-        var rotation = vehicle.rotation;
+        var rotation = components.vehicle.rotation;
         rotation *= Quaternion.Euler(new Vector3(0,stats.rotationSpeed * 0.05f,0) * (_defaultAxis.x * 15));
         rotation = Quaternion.Lerp(rotation,
-            Quaternion.FromToRotation(vehicle.up, _groundInfo.normal) * rotation, 0.5f);
-        vehicle.rotation = rotation;
-        var force = (vehicle.forward * (stats.speed * 25 * (_isBoosting? 1.5f : 1f))) + (vehicle.right * ((Math.Abs(_defaultAxis.x - (-1)) < 0.4f ? _defaultAxis.y : -_defaultAxis.y) * stats.speed * 40));
-        body.AddForce(force);
+            Quaternion.FromToRotation(components.vehicle.up, _groundInfo.normal) * rotation, 0.5f);
+        components.vehicle.rotation = rotation;
+        var force = (components.vehicle.forward * (stats.speed * 25 * (_isBoosting? 1.5f : 1f))) + (components.vehicle.right * ((Math.Abs(_defaultAxis.x - (-1)) < 0.4f ? _defaultAxis.y : -_defaultAxis.y) * stats.speed * 40));
+        components.body.AddForce(force);
     }
 
     private void CheckConstraints()
     {
-        _isGrounded = Physics.Raycast(new Ray(vehicle.position, -vehicle.up), out _groundInfo, 1.5f);
-        if (Mathf.Abs(body.velocity.magnitude) > stats.loopCap && _isGrounded)
+        _isGrounded = Physics.Raycast(new Ray(components.vehicle.position, -components.vehicle.up), out _groundInfo, 1.5f);
+        if (Mathf.Abs(components.body.velocity.magnitude) > stats.loopCap && _isGrounded)
         {
-            body.useGravity = false;
+            components.body.useGravity = false;
         }
         else
         {
-            body.useGravity = true;
+            components.body.useGravity = true;
         }
     }
 
@@ -141,14 +149,14 @@ public class PhysicsVehicle : MonoBehaviour
     {
         if (!_isGrounded)
         {
-            body.AddForce(0,-stats.weight * Time.deltaTime * 1000f,0);
+            components.body.AddForce(0,-stats.weight * Time.deltaTime * 1000f,0);
         }
     }
 
     private void Respawn()
     {
-        vehicle.position = lastCheckpoint.transform.position;
-        vehicle.rotation = Quaternion.identity;
+        components.vehicle.position = lastCheckpoint.transform.position;
+        components.vehicle.rotation = Quaternion.identity;
     }
 
     private void CheckHealth()
@@ -209,5 +217,10 @@ public class PhysicsVehicle : MonoBehaviour
             vehicle.AddHealth(-10);
             Debug.Log("Losing health");
         }
+    }
+
+    public void LinkPlayer(Player player)
+    {
+        components.player = player;
     }
 }
