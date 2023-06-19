@@ -7,19 +7,18 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    /*[SerializeField] private GameLoop loop;
     [SerializeField] private GameObject[] uiList;
     [SerializeField] private GameConfiguration gameConfig;
-    public GameObject[] Players;
+    private int _playerCount = 0;
 
     private void Start()
     {
-        StartCoroutine(SetUIConfig());
+        SetUIConfig();
     }
 
-    public IEnumerator SetUIConfig()
+    private void SetUIConfig()
     {
-        yield return new WaitForSeconds(0.1f);
+
         switch (gameConfig.devices.Count)
         {
             case 1:
@@ -35,18 +34,11 @@ public class UIManager : MonoBehaviour
                 uiList[3].SetActive(true);
                 break;
         }
-        LinkUI(gameConfig.devices.Count);
     }
 
-    private void LinkUI(int players)
+    public void LinkUIToPlayer(Player player)
     {
-        Players = GameObject.FindGameObjectsWithTag("Player");
-        for (var i = 0; i < players; i++)
-        {
-            uiList[players - 1].gameObject.transform.GetChild(i).gameObject.GetComponent<PlayerUI>().loop =
-                loop;
-            uiList[players - 1].gameObject.transform.GetChild(i).gameObject.GetComponent<PlayerUI>().player =
-                Players[i];
-        }
-    }*/
+        uiList[gameConfig.devices.Count - 1].transform.GetChild(_playerCount).GetComponent<PlayerUI>().PlayerInfo = player;
+        _playerCount++;
+    }
 }

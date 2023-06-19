@@ -6,10 +6,16 @@ using UnityEngine;
 
 public class PlayerUI : MonoBehaviour
 {
-    public GameLoop loop;
-    public GameObject player;
-    public TextMeshProUGUI turnText;
-    public TextMeshProUGUI rankText;
+    private Player _playerInfo;
+
+    public Player PlayerInfo
+    {
+        get => _playerInfo;
+        set => _playerInfo = value;
+    }
+    
+    [SerializeField] private TextMeshProUGUI turnText;
+    [SerializeField] private TextMeshProUGUI rankText;
 
     //private PlayerState info;
     private bool _loaded = false;
@@ -28,6 +34,10 @@ public class PlayerUI : MonoBehaviour
 
     private void updateTurns()
     {
+        if (!_playerInfo) return;
+        Debug.Log("Update UI");
+        turnText.text = $"Turn : {_playerInfo.CurrentTurn}/3";
+        rankText.text = $"Rank : 0/8";
         /*if (!_loaded) return;
         info = loop.PlayerInfo[player];
         turnText.text = "Turn : " + info.turnCount + "/2";

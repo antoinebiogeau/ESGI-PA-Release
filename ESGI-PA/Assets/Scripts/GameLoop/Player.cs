@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private List<Checkpoint> _checkpoints;
+    [SerializeField] private List<Checkpoint> _checkpoints;
 
     public List<Checkpoint> Checkpoints
     {

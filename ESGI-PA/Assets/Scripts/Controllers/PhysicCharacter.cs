@@ -65,7 +65,7 @@ public class PhysicCharacter : MonoBehaviour
     {
         input.defaultActionMap = "Character";
         _runAnim = Animator.StringToHash("Running Threshold");
-        camera.transform.parent = null;
+        
     }
 
     // Update is called once per frame

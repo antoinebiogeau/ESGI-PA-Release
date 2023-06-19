@@ -6,7 +6,37 @@ using UnityEngine.UIElements;
 
 public class MenuController : MonoBehaviour
 {
-	public RectTransform mainMenu;
+
+	[SerializeField] private GameObject currentMenu;
+	[SerializeField] private GameConfiguration config;
+	[SerializeField] private InputManagerEvents playerManager;
+	
+	public void ShowMenu(GameObject nextMenu)
+	{
+		currentMenu.SetActive(false);
+		nextMenu.SetActive(true);
+		currentMenu = nextMenu;
+	}
+
+	public void SetInputManager(string state)
+	{
+		Debug.Log("Setting input manager");
+		playerManager.CheckForInputs = state == "true";
+	}
+
+	public void StartGame()
+	{
+		config.nextCircuit = 0;
+		var idToLoad = config.nextCircuit;
+		config.nextCircuit++;
+		SceneManager.LoadScene(config.circuits[idToLoad]);
+	}
+
+	public void ExitGame()
+	{
+		Application.Quit();
+	}
+	/*public RectTransform mainMenu;
 	public RectTransform mapSelectMenu;
 	public RectTransform gameConfigMenu;
 	public RectTransform optionsMenu;
@@ -89,5 +119,5 @@ public class MenuController : MonoBehaviour
 	    #if UNITY_EDITOR	
 		        UnityEditor.EditorApplication.isPlaying = false;
 	    #endif
-    }
+    }*/
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using Object = System.Object;
 
 
@@ -14,8 +15,16 @@ public class InputManagerEvents : MonoBehaviour
 
     [SerializeField] private GameConfiguration gameConfig;
 
-    [SerializeField] private MenuController menu;
+    [SerializeField] private List<RawImage> playerImages;
     
+    [SerializeField] private bool checkForInputs = false;
+
+    public bool CheckForInputs
+    {
+        get => checkForInputs;
+        set => checkForInputs = value;
+    }
+
     private bool isKeyboardActive;
 
     private List<InputDevice> activeDevices = new();
@@ -27,20 +36,19 @@ public class InputManagerEvents : MonoBehaviour
     }
     private void Update()
     {
-        if (menu.canEditPlayers)
-        {
-            detectDevices();
-            updateUI();
-        }
+        if (!checkForInputs) return;
+        Debug.Log("Detecting devices");
+        DetectDevices();
+        UpdateUI();
     }
 
-    private void detectDevices()
+    private void DetectDevices()
     {
-        detectKeyboard();
-        detectGamepads();
+        DetectKeyboard();
+        DetectGamepads();
     }
 
-    private void detectKeyboard()
+    private void DetectKeyboard()
     {
         if (keyboard.anyKey.isPressed && !keyboard.backspaceKey.isPressed && !isKeyboardActive && activeDevices.Count < MAX_DEVICES)
         {
@@ -54,32 +62,28 @@ public class InputManagerEvents : MonoBehaviour
         }
     }
 
-    private void detectGamepads()
+    private void DetectGamepads()
     {
         //On regarde tous les gamepads dispo, si parmi l'un de ces gamepads, l'une des touches est jouée, on active le gamepad
-        Gamepad[] gamepads = Gamepad.all.ToArray();
-        for (var i = 0; i < gamepads.Length; i++)
+        var gamepads = Gamepad.all.ToArray();
+        foreach (var gamepad in gamepads)
         {
-            if (gamepads[i].buttonSouth.isPressed && !activeDevices.Contains(gamepads[i]) && activeDevices.Count < MAX_DEVICES)
+            if (gamepad.buttonSouth.isPressed && !activeDevices.Contains(gamepad) && activeDevices.Count < MAX_DEVICES)
             {
-                activeDevices.Add(gamepads[i]);
+                activeDevices.Add(gamepad);
             }
         }
         foreach (var activeDevice in activeDevices)
         {
-            if (activeDevice is Gamepad)
-            {
-                Gamepad device = (Gamepad)activeDevice;
-                if (!Gamepad.all.ToArray().Contains(device) || device.buttonEast.isPressed)
-                {
-                    activeDevices.Remove(device);
-                    break;
-                }
-            }
+            if (activeDevice is not Gamepad) continue;
+            var device = (Gamepad)activeDevice;
+            if (Gamepad.all.ToArray().Contains(device) && !device.buttonEast.isPressed) continue;
+            activeDevices.Remove(device);
+            break;
         }
     }
 
-    private void updateUI()
+    private void UpdateUI()
     {
         for (var i = 0; i < 4; i++)
         {
@@ -87,17 +91,17 @@ public class InputManagerEvents : MonoBehaviour
             {
                 if (activeDevices[i] is Keyboard)
                 {
-                    menu.playerImages[i].color = new Color(0.8f,0.8f,0.8f,1.0f);
+                    playerImages[i].color = new Color(0.8f,0.8f,0.8f,1.0f);
                 }
                 else
                 {
-                    menu.playerImages[i].color = Color.white;
+                    playerImages[i].color = Color.white;
                 }
                 
             }
             else
             {
-                menu.playerImages[i].color = Color.grey;
+                playerImages[i].color = Color.grey;
             }
         }
     }

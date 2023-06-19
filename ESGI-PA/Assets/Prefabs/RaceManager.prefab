@@ -365,10 +365,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18927b8ecae398c4bb4717055068ff17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loop: {fileID: 0}
-  player: {fileID: 0}
-  turnText: {fileID: 0}
-  rankText: {fileID: 0}
+  turnText: {fileID: 372260661178772349}
+  rankText: {fileID: 672606538589344147}
 --- !u!1 &2239167919985049399
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,10 +458,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18927b8ecae398c4bb4717055068ff17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loop: {fileID: 0}
-  player: {fileID: 0}
-  turnText: {fileID: 0}
-  rankText: {fileID: 0}
+  turnText: {fileID: 6487350158323231187}
+  rankText: {fileID: 2903095416173673655}
 --- !u!1 &2280936855740874571
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,10 +551,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18927b8ecae398c4bb4717055068ff17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loop: {fileID: 0}
-  player: {fileID: 0}
-  turnText: {fileID: 0}
-  rankText: {fileID: 0}
+  turnText: {fileID: 8870627771051202387}
+  rankText: {fileID: 3332106229059783831}
 --- !u!1 &2287601190833476008
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,10 +916,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18927b8ecae398c4bb4717055068ff17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loop: {fileID: 0}
-  player: {fileID: 0}
-  turnText: {fileID: 0}
-  rankText: {fileID: 0}
+  turnText: {fileID: 7661554649006710464}
+  rankText: {fileID: 1512121358785080386}
 --- !u!1 &2840148734116933966
 GameObject:
   m_ObjectHideFlags: 0
@@ -1017,10 +1009,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18927b8ecae398c4bb4717055068ff17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loop: {fileID: 0}
-  player: {fileID: 0}
-  turnText: {fileID: 0}
-  rankText: {fileID: 0}
+  turnText: {fileID: 319985069639085770}
+  rankText: {fileID: 2207457825646320039}
 --- !u!1 &3183991012415541986
 GameObject:
   m_ObjectHideFlags: 0
@@ -1163,10 +1153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18927b8ecae398c4bb4717055068ff17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loop: {fileID: 0}
-  player: {fileID: 0}
-  turnText: {fileID: 0}
-  rankText: {fileID: 0}
+  turnText: {fileID: 8280433061816738104}
+  rankText: {fileID: 347421441534912358}
 --- !u!1 &3227446945203024227
 GameObject:
   m_ObjectHideFlags: 0
@@ -1393,10 +1381,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18927b8ecae398c4bb4717055068ff17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loop: {fileID: 0}
-  player: {fileID: 0}
-  turnText: {fileID: 0}
-  rankText: {fileID: 0}
+  turnText: {fileID: 1575253388463546129}
+  rankText: {fileID: 903164622889887058}
 --- !u!1 &3705024571525141064
 GameObject:
   m_ObjectHideFlags: 0
@@ -1978,10 +1964,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18927b8ecae398c4bb4717055068ff17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loop: {fileID: 0}
-  player: {fileID: 0}
-  turnText: {fileID: 0}
-  rankText: {fileID: 0}
+  turnText: {fileID: 8712272673579061260}
+  rankText: {fileID: 5622887366025620407}
 --- !u!1 &4634534213603586526
 GameObject:
   m_ObjectHideFlags: 0
@@ -2108,10 +2092,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18927b8ecae398c4bb4717055068ff17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loop: {fileID: 0}
-  player: {fileID: 0}
-  turnText: {fileID: 0}
-  rankText: {fileID: 0}
+  turnText: {fileID: 3085363337740999675}
+  rankText: {fileID: 7275620270214521316}
 --- !u!1 &4988692395097486293
 GameObject:
   m_ObjectHideFlags: 0
@@ -2499,6 +2481,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d978d4d93c1b06418b254cada1f3f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiList:
+  - {fileID: 6355439936002594682}
+  - {fileID: 5615531674779222017}
+  - {fileID: 3705024571525141064}
+  - {fileID: 4553928034387256919}
+  gameConfig: {fileID: 11400000, guid: 89467c740d5e6be418c316a2f2a8c436, type: 2}
 --- !u!1 &5615531674779222017
 GameObject:
   m_ObjectHideFlags: 0
@@ -3899,10 +3887,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18927b8ecae398c4bb4717055068ff17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loop: {fileID: 0}
-  player: {fileID: 0}
-  turnText: {fileID: 0}
-  rankText: {fileID: 0}
+  turnText: {fileID: 1135385259173030916}
+  rankText: {fileID: 6523981686369024783}
 --- !u!1 &7888215373543984946
 GameObject:
   m_ObjectHideFlags: 0

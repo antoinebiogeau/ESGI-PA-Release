@@ -12,12 +12,26 @@ public class GameLoop : MonoBehaviour
     [SerializeField] private RaceConfiguration raceConfig;
     [SerializeField] private List<Player> players;
     [SerializeField] private List<Checkpoint> checkpoints;
+    private GameConfiguration gameConfig;
+    private int _startCounter = 3;
 
+    public GameConfiguration GameConfig
+    {
+        get => gameConfig;
+        set => gameConfig = value;
+    }
+
+    private void Start()
+    {
+        StartCoroutine(StartCountdown());
+    }
 
     private void Update()
     {
-        if (!CheckEndOfGame()) return;
-        Debug.Log("Game has ended");
+        if ((CheckEndOfGame() || Input.GetKeyDown(KeyCode.P)) && _startCounter <= 0)
+        {
+            EndOfGame();
+        }
     }
 
     public void AddPlayer(Player player)
@@ -31,85 +45,30 @@ public class GameLoop : MonoBehaviour
     {
         return players.All(player => player.CurrentTurn >= raceConfig.turnCount);
     }
-    /*[SerializeField] private List<Checkpoint> checkpoints;
-    private GameObject testIndex;
-    public List<Checkpoint> Checkpoints
+
+    private void EndOfGame()
     {
-        get => checkpoints;
-    }
-
-    private Dictionary<GameObject, PlayerState> playersInfo = new();
-
-    public Dictionary<GameObject, PlayerState> PlayerInfo
-    {
-        get => playersInfo;
-        set => playersInfo = value;
-    }
-
-    public int maxTurn = 2;
-
-    private bool hasStarted = false;
-
-    private List<GameObject> players = new();
-
-    public List<GameObject> PlayersRank
-    {
-        get => players;
-        set => players = value;
-    }
-
-    void Start()
-    {
-        foreach (var checkpoint in checkpoints)
+        var idToLoad = gameConfig.nextCircuit;
+        gameConfig.nextCircuit++;
+        if (gameConfig.nextCircuit > gameConfig.circuits.Count)
         {
-            checkpoint.Loop = gameObject.GetComponent<GameLoop>();
-        }
-    }
-
-    void Update()
-    {
-        if (players == null) return;
-        players.Sort(((o, o1) => (PlacementScore(o) > PlacementScore(o1)) ? -1 : 
-            (PlacementScore(o) < PlacementScore(o1)) ? 1 : 0));
-        if (CheckEndgame())
-        {
-            // Debug.Log("Game has ended");
+            gameConfig.nextCircuit = 0;
             SceneManager.LoadScene("Menuprincipal");
         }
-    }
-
-    
-
-    private bool CheckEndgame()
-    {
-        if (!hasStarted) return false;
-        if (playersInfo.Count < 1)
+        else
         {
-            return false;
-        }    
-        foreach (var player in players)
-        {
-            if (playersInfo[player].turnCount < 2)
-            {
-                return false;
-            }
+            SceneManager.LoadScene(gameConfig.circuits[idToLoad]);
         }
-        return true;
+
     }
 
-    private int PlacementScore(GameObject player)
+    private IEnumerator StartCountdown()
     {
-        int nextCheckpoint = playersInfo[player].currentCheckpoint + 1;
-        Transform nextCheckpointPos =
-            Checkpoints[(nextCheckpoint > Checkpoints.Count) ? 0 : nextCheckpoint].gameObject.transform;
-        int distance = (int)(Mathf.Abs(nextCheckpointPos.position.x - player.transform.position.x) + Mathf.Abs(nextCheckpointPos.position.y - player.transform.position.y));
-        return 100 + (playersInfo[player].turnCount * 1000) - distance;
+        for (var i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(1);
+            _startCounter --;
+            Debug.Log("Counter : " + _startCounter);
+        }
     }
-    
-    public void AddPlayer(GameObject obj)
-    {
-        if (!obj.CompareTag("Player")) return;
-        PlayersRank.Add(obj);
-        PlayerInfo.Add(obj, new PlayerState());
-    }*/
 }

@@ -31,13 +31,16 @@ public class RaceLoader : MonoBehaviour
     
     void Start()
     {
+        loop.GameConfig = gameConfig;
         spawningPosition = config.respawnPositions;
-        InstantiatePlayers();
+        
+        StartCoroutine(InstantiatePlayers());
         
     }
 
-    private void InstantiatePlayers()
+    private IEnumerator InstantiatePlayers()
     {
+        yield return new WaitForSeconds(0.5f);
         playerJoined = 0;
         manager.playerPrefab = playerPrefab;
         if (gameConfig.devices.Count <= 1) manager.splitScreen = false;
@@ -45,15 +48,15 @@ public class RaceLoader : MonoBehaviour
         {
             manager.JoinPlayer(i, i, gameConfig.devices[i] is Gamepad ? "gamepad" : "keyboard", gameConfig.devices[i]);
         }
-        for (var i = 0; i < 8 - gameConfig.devices.Count; i++)
-        {
-            GameObject bot = Instantiate(playerPrefab);
-            bot.TryGetComponent<Player>(out var playerInfo);
-            // playerInfo.Gameloop = loop;
-            // playerInfo.TurnCount = config.turnCount;
-            bot.GetComponent<PlayerInput>().DeactivateInput();
-            bot.GetComponent<PhysicCharacter>().camera.gameObject.SetActive(false);
-        }
+        // for (var i = 0; i < 8 - gameConfig.devices.Count; i++)
+        // {
+        //     GameObject bot = Instantiate(playerPrefab);
+        //     bot.TryGetComponent<Player>(out var playerInfo);
+        //     // playerInfo.Gameloop = loop;
+        //     // playerInfo.TurnCount = config.turnCount;
+        //     bot.GetComponent<PlayerInput>().DeactivateInput();
+        //     bot.GetComponent<PhysicCharacter>().camera.gameObject.SetActive(false);
+        // }
     }
 
     public void SetPlayer(PlayerInput player)
@@ -63,10 +66,17 @@ public class RaceLoader : MonoBehaviour
         // loop.PlayersRank.Append(player.gameObject);
         //loop.AddPlayer(player.gameObject);
         //uiManager.LinkToUI(player.gameObject);
-        SetCameraLayout(player.GetComponent<PhysicCharacter>().camera.GetComponent<Camera>());
+        Debug.Log(gameConfig.devices.Count);
         
+        player.GetComponent<PhysicCharacter>().camera.TryGetComponent<Camera>(out var playerCamera);
+        SetCameraLayout(playerCamera);
+    
+    
+    
         player.TryGetComponent<Player>(out var playerInfo);
+        uiManager.LinkUIToPlayer(playerInfo);
         loop.AddPlayer(playerInfo);
+        
         // playerInfo.Gameloop = loop;
         // playerInfo.TurnCount = config.turnCount;
         
@@ -77,15 +87,12 @@ public class RaceLoader : MonoBehaviour
 
     private void SetCameraLayout(Camera camera)
     {
-        if (gameConfig.devices.Count == 1)
+        camera.rect = gameConfig.devices.Count switch
         {
-            camera.rect = new Rect(0,0,1,1);
-        }
-        if (gameConfig.devices.Count == 2)
-        {
-            camera.rect = viewportDuo[playerJoined];
-        }
-
+            1 => new Rect(0, 0, 1, 1),
+            2 => viewportDuo[playerJoined],
+            _ => camera.rect
+        };
         camera.transform.parent = null;
     }
 }
