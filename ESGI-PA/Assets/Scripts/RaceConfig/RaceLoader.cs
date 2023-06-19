@@ -68,7 +68,7 @@ public class RaceLoader : MonoBehaviour
         //uiManager.LinkToUI(player.gameObject);
         Debug.Log(gameConfig.devices.Count);
         
-        player.GetComponent<PhysicCharacter>().camera.TryGetComponent<Camera>(out var playerCamera);
+        player.GetComponent<PhysicCharacter>().Components.camera.TryGetComponent<Camera>(out var playerCamera);
         SetCameraLayout(playerCamera);
     
     
