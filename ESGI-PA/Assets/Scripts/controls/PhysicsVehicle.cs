@@ -78,7 +78,7 @@ public class PhysicsVehicle : MonoBehaviour
     {
         CheckHealth();
      
-        if (components.input.actions["Respawn"].IsPressed() && !_isGrounded && components.body.velocity.magnitude < 1f) Respawn();
+        if (components.input.actions["Respawn"].IsPressed()) Respawn();
         _defaultAxis = components.input.actions["Movement"].ReadValue<Vector2>();
         _axis = components.input.actions["Movement"].ReadValue<Vector2>() * (Time.deltaTime * 50000f);
         _isDrifting = components.input.actions["Drift"].IsPressed();
@@ -155,7 +155,7 @@ public class PhysicsVehicle : MonoBehaviour
 
     private void Respawn()
     {
-        components.vehicle.position = lastCheckpoint.transform.position;
+        components.vehicle.position = components.player.LastCheckpoint.transform.position + Vector3.up;
         components.vehicle.rotation = Quaternion.identity;
     }
 

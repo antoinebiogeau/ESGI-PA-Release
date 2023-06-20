@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
     }
 
     [SerializeField] private int currentCheckpoint = 0;
+    [SerializeField] private int lastCheckpoint;
+
+    public Checkpoint LastCheckpoint => _checkpoints[lastCheckpoint];
 
     [SerializeField]private int currentTurn;
     public int CurrentTurn => currentTurn;
@@ -22,14 +25,15 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Triggering");
-        if (other.TryGetComponent<Checkpoint>(out Checkpoint checkpoint))
+        if (!other.TryGetComponent<Checkpoint>(out var checkpoint)) return;
+        var checkpointIndex = _checkpoints.IndexOf(checkpoint);
+        if (checkpointIndex < _checkpoints.Count / 2 && currentCheckpoint > _checkpoints.Count / 2)
         {
-            var checkpointIndex = _checkpoints.IndexOf(checkpoint);
-            if (checkpointIndex < _checkpoints.Count / 2 && currentCheckpoint > _checkpoints.Count / 2)
-            {
-                currentTurn++;
-            }
-            currentCheckpoint = checkpointIndex;
+            currentTurn++;
         }
+
+        lastCheckpoint = currentCheckpoint;
+        Debug.Log($"Last checkpoint : {lastCheckpoint}");
+        currentCheckpoint = checkpointIndex;
     }
 }

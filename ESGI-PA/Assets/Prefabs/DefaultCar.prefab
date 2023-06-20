@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 8169876004810282315}
   - component: {fileID: 7286510229522652965}
   - component: {fileID: 6251980933766321693}
-  - component: {fileID: 7719964849580711026}
   - component: {fileID: 4628022758736900906}
   - component: {fileID: 1397796401981049375}
+  - component: {fileID: 2246034243864506324}
   m_Layer: 0
   m_Name: DefaultCar
   m_TagString: Untagged
@@ -53,6 +53,7 @@ MonoBehaviour:
     vehicle: {fileID: 1472848424178709160}
     body: {fileID: 6251980933766321693}
     input: {fileID: 7286510229522652965}
+    player: {fileID: 0}
   stats:
     speed: 5
     weight: 10
@@ -106,21 +107,8 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 64
   m_CollisionDetection: 1
---- !u!65 &7719964849580711026
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8802989552468582737}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &4628022758736900906
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -171,3 +159,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8802989552468582737}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!136 &2246034243864506324
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8802989552468582737}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5440919
+  m_Height: 1.0557847
+  m_Direction: 2
+  m_Center: {x: 0, y: -0.004091859, z: 0.027892351}
