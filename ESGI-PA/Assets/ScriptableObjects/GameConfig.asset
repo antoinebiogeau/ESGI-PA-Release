@@ -12,3 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82ee7e1a2c6ff3b4f8f35b8b15c9f115, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
+  circuits:
+  - Agrias village
+  nextCircuit: 1
+  mode: 1

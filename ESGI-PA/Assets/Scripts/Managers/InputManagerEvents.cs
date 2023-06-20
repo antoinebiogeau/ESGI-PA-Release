@@ -1,12 +1,11 @@
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using Object = System.Object;
+
 
 
 public class InputManagerEvents : MonoBehaviour
@@ -19,21 +18,34 @@ public class InputManagerEvents : MonoBehaviour
     
     [SerializeField] private bool checkForInputs = false;
 
+    private void Awake()
+    {
+        _keyboard = Keyboard.current;
+    }
+
     public bool CheckForInputs
     {
         get => checkForInputs;
         set => checkForInputs = value;
     }
 
-    private bool isKeyboardActive;
+    private bool _isKeyboardActive;
 
-    private List<InputDevice> activeDevices = new();
-    private Keyboard keyboard;
+    private List<InputDevice> _activeDevices = new();
+    private Keyboard _keyboard;
 
-    void Start()
+    private void OnEnable()
     {
-        keyboard = InputSystem.GetDevice<Keyboard>();
+        checkForInputs = true;
+        Debug.Log("Enabling");
     }
+
+    private void OnDisable()
+    {
+        checkForInputs = false;
+        Debug.Log("Disable");
+    }
+
     private void Update()
     {
         if (!checkForInputs) return;
@@ -50,15 +62,15 @@ public class InputManagerEvents : MonoBehaviour
 
     private void DetectKeyboard()
     {
-        if (keyboard.anyKey.isPressed && !keyboard.backspaceKey.isPressed && !isKeyboardActive && activeDevices.Count < MAX_DEVICES)
+        if (_keyboard.anyKey.isPressed && !_keyboard.backspaceKey.isPressed && !_isKeyboardActive && _activeDevices.Count < MAX_DEVICES)
         {
-            isKeyboardActive = true;
-            activeDevices.Add(keyboard);
+            _isKeyboardActive = true;
+            _activeDevices.Add(_keyboard);
         }
-        else if (keyboard.backspaceKey.isPressed && isKeyboardActive)
+        else if (_keyboard.backspaceKey.isPressed && _isKeyboardActive)
         {
-            isKeyboardActive = false;
-            activeDevices.Remove(keyboard);
+            _isKeyboardActive = false;
+            _activeDevices.Remove(_keyboard);
         }
     }
 
@@ -68,17 +80,17 @@ public class InputManagerEvents : MonoBehaviour
         var gamepads = Gamepad.all.ToArray();
         foreach (var gamepad in gamepads)
         {
-            if (gamepad.buttonSouth.isPressed && !activeDevices.Contains(gamepad) && activeDevices.Count < MAX_DEVICES)
+            if (gamepad.buttonSouth.isPressed && !_activeDevices.Contains(gamepad) && _activeDevices.Count < MAX_DEVICES)
             {
-                activeDevices.Add(gamepad);
+                _activeDevices.Add(gamepad);
             }
         }
-        foreach (var activeDevice in activeDevices)
+        foreach (var activeDevice in _activeDevices)
         {
             if (activeDevice is not Gamepad) continue;
             var device = (Gamepad)activeDevice;
             if (Gamepad.all.ToArray().Contains(device) && !device.buttonEast.isPressed) continue;
-            activeDevices.Remove(device);
+            _activeDevices.Remove(device);
             break;
         }
     }
@@ -87,9 +99,9 @@ public class InputManagerEvents : MonoBehaviour
     {
         for (var i = 0; i < 4; i++)
         {
-            if (i < activeDevices.Count)
+            if (i < _activeDevices.Count)
             {
-                if (activeDevices[i] is Keyboard)
+                if (_activeDevices[i] is Keyboard)
                 {
                     playerImages[i].color = new Color(0.8f,0.8f,0.8f,1.0f);
                 }
@@ -108,6 +120,6 @@ public class InputManagerEvents : MonoBehaviour
 
     private void OnDestroy()
     {
-        gameConfig.devices = activeDevices;
+        gameConfig.devices = _activeDevices;
     }
 }
