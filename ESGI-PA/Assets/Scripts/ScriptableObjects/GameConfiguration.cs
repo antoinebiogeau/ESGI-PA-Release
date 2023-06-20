@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public enum GameMode
 {
     Cup,
+    Free,
     Chrono
 }
 

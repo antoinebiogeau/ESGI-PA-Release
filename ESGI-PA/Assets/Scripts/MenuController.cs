@@ -8,21 +8,31 @@ public class MenuController : MonoBehaviour
 {
 
 	[SerializeField] private GameObject currentMenu;
+	private GameObject _previousMenu;	
 	[SerializeField] private GameConfiguration config;
 	[SerializeField] private InputManagerEvents playerManager;
-	
+
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			ShowMenu(_previousMenu);
+		}
+	}
+
 	public void ShowMenu(GameObject nextMenu)
 	{
+		_previousMenu = currentMenu;
 		currentMenu.SetActive(false);
 		nextMenu.SetActive(true);
 		currentMenu = nextMenu;
 	}
 
-	public void SetInputManager(string state)
+	public void SetGamemode(string mode)
 	{
-		Debug.Log("Setting input manager");
-		playerManager.CheckForInputs = state == "true";
+		config.mode = mode == "cup" ? GameMode.Cup : mode == "free" ? GameMode.Free : GameMode.Chrono;
 	}
+
 
 	public void StartGame()
 	{

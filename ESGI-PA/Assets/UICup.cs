@@ -8,7 +8,9 @@ public class UICup : MonoBehaviour
     [SerializeField] private List<string> maps;
     [SerializeField] private CupPreview preview;
     [SerializeField] private GameConfiguration config;
-    
+    [SerializeField] private MenuController menu;
+
+    private static bool _hoverLocked;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +22,7 @@ public class UICup : MonoBehaviour
     {
         
     }
+    
 
     public void OnClick()
     {
@@ -27,10 +30,17 @@ public class UICup : MonoBehaviour
         {
             config.circuits = maps;
         }
+        
+    }
+
+    public void LockHover()
+    {
+        _hoverLocked = !_hoverLocked;
     }
 
     public void OnHover()
     {
+        if (_hoverLocked) return;
         preview.CupName = cupName;
         preview.CupText = maps;
     }
