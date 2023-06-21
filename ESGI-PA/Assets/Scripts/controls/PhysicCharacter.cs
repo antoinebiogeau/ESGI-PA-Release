@@ -22,6 +22,7 @@ public struct CharacterComponents
     [SerializeField] public Animator animator;
     [SerializeField] public GameObject model;
     [SerializeField] public Player player;
+    [SerializeField] public AICharacter aiModule;
 }
 
 public class PhysicCharacter : MonoBehaviour
@@ -81,8 +82,7 @@ public class PhysicCharacter : MonoBehaviour
 
     private bool stillOnWall = false;
 
-    public bool isIAControlled = false;
-    public CharacterAI AIModule;
+    [SerializeField] private bool isIAControlled = false;
 
     private Vector2 _lookAxis;
     public Vector2 LookAxis => _lookAxis;
@@ -92,7 +92,7 @@ public class PhysicCharacter : MonoBehaviour
     {
         components.input.defaultActionMap = "Character";
         _runAnim = Animator.StringToHash("Running Threshold");
-
+        components.camera.transform.parent = null;
     }
 
     // Update is called once per frame
@@ -101,7 +101,7 @@ public class PhysicCharacter : MonoBehaviour
         if (!isIAControlled) ReadInput();
         else
         {
-            _axis = AIModule.axis * (Time.deltaTime * 10f);
+
         }
     }
 
@@ -270,8 +270,8 @@ public class PhysicCharacter : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Wall"))
         {
-            AIModule.AddReward(-0.5f);
-            AIModule.EndEpisode();
+            components.aiModule.AddReward(-0.5f);
+            components.aiModule.EndEpisode();
         }
     }
     
@@ -279,7 +279,7 @@ public class PhysicCharacter : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Wall"))
         {
-            AIModule.AddReward(-0.1f);
+            components.aiModule.AddReward(-0.1f);
         }
     }
     

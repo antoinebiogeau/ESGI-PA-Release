@@ -5,7 +5,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private GameObject checkpointsSource;
     [SerializeField] private List<Checkpoint> _checkpoints;
+
+    private void Start()
+    {
+        for (var i = 0; i < checkpointsSource.transform.childCount; i++)
+        {
+            var child = checkpointsSource.transform.GetChild(i);
+            _checkpoints.Add(child.GetComponent<Checkpoint>());
+            AI.CheckpointPositions.Add(child.position);
+        }
+    }
 
     public List<Checkpoint> Checkpoints
     {
@@ -20,6 +31,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]private int currentTurn;
     public int CurrentTurn => currentTurn;
+
+    [SerializeField] private AICharacter AI;
 
 
     private void OnTriggerEnter(Collider other)
