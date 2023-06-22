@@ -12,9 +12,9 @@ public class Player : MonoBehaviour
     {
         for (var i = 0; i < checkpointsSource.transform.childCount; i++)
         {
-            var child = checkpointsSource.transform.GetChild(i);
-            _checkpoints.Add(child.GetComponent<Checkpoint>());
-            AI.CheckpointPositions.Add(child.position);
+            var child = checkpointsSource.transform.GetChild(i).GetComponent<Checkpoint>();
+            _checkpoints.Add(child);
+            AI.Checkpoint.Add(child);
         }
     }
 

@@ -10,14 +10,15 @@ public class AICharacter : Agent
     [SerializeField] private Transform characterPosition;
 
     public Vector2 Axis { get; set; } = Vector2.zero;
-    
+    [SerializeField] private Vector2 axisView;
 
-    public List<Vector3> CheckpointPositions { get; set; } = new();
+    public List<Checkpoint> Checkpoint{ get; set; } = new();
+    public int CurrentCheckpoint { get; set; } = 0;
 
     public override void CollectObservations(VectorSensor sensor)
     {
         sensor.AddObservation(characterPosition.position);
-        sensor.AddObservation(CheckpointPositions[0]);
+        sensor.AddObservation(Checkpoint[CurrentCheckpoint].transform.position);
     }
     public override void OnEpisodeBegin()
     {
@@ -43,6 +44,7 @@ public class AICharacter : Agent
         /*x = actions.ContinuousActions[0];
         y = actions.ContinuousActions[1];*/
         Axis = new Vector2(x, y);
+        axisView = Axis;
         if (Axis == Vector2.zero)
         {
             AddReward(-0.1f);

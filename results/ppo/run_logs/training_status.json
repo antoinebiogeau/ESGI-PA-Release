@@ -1,0 +1,29 @@
+{
+    "CharacterAI": {
+        "checkpoints": [
+            {
+                "steps": 5693,
+                "file_path": "results\\ppo\\CharacterAI\\CharacterAI-5693.onnx",
+                "reward": -35.000002939254045,
+                "creation_time": 1687358441.1975138,
+                "auxillary_file_paths": [
+                    "results\\ppo\\CharacterAI\\CharacterAI-5693.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 5693,
+            "file_path": "results\\ppo\\CharacterAI.onnx",
+            "reward": -35.000002939254045,
+            "creation_time": 1687358441.1975138,
+            "auxillary_file_paths": [
+                "results\\ppo\\CharacterAI\\CharacterAI-5693.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.29.0",
+        "torch_version": "1.7.0+cu110"
+    }
+}

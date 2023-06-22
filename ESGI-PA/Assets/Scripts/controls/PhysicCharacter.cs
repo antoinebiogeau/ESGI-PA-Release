@@ -82,7 +82,7 @@ public class PhysicCharacter : MonoBehaviour
 
     private bool stillOnWall = false;
 
-    [SerializeField] private bool isIAControlled = false;
+    [SerializeField] public bool isIAControlled = false;
 
     private Vector2 _lookAxis;
     public Vector2 LookAxis => _lookAxis;
@@ -101,7 +101,7 @@ public class PhysicCharacter : MonoBehaviour
         if (!isIAControlled) ReadInput();
         else
         {
-
+            _axis = components.aiModule.Axis;
         }
     }
 
@@ -270,7 +270,8 @@ public class PhysicCharacter : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Wall"))
         {
-            components.aiModule.AddReward(-0.5f);
+            components.aiModule.SetReward(-0.5f);
+            components.aiModule.CurrentCheckpoint = 0;
             components.aiModule.EndEpisode();
         }
     }
