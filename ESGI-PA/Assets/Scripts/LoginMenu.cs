@@ -75,7 +75,11 @@ public class LoginMenu : MonoBehaviour
                     if (user.username == usernameInput.text && user.password == passwordInput.text)
                     {
                         Debug.Log("Connexion réussie");
-                        MoneyText.text = user.username + "    Money : " + user.money;
+                        PlayerInfo.Instance.id = user.id;
+                        PlayerInfo.Instance.username = user.username;
+                        PlayerInfo.Instance.email = user.email;
+                        PlayerInfo.Instance.money = user.money;
+                        MoneyText.text = user.username + "    Money : " + user.money+"$";
                         isLogin = true;
                         break; // Sortir de la boucle si la connexion est réussie
                     }

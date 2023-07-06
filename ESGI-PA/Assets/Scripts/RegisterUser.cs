@@ -74,6 +74,11 @@ public class RegisterUser : MonoBehaviour
         registerCanvas.gameObject.SetActive(false);
         mainCanvas.gameObject.SetActive(true);
     }
+    public void ToLogin()
+    {
+        registerCanvas.gameObject.SetActive(false);
+        loginCanvas.gameObject.SetActive(true);
+    }
 }
 
 [System.Serializable]
