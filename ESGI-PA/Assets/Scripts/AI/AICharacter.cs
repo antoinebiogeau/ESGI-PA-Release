@@ -9,20 +9,28 @@ public class AICharacter : Agent
 {
     [SerializeField] private Transform characterPosition;
 
-    public Vector2 Axis { get; set; } = Vector2.zero;
+    
     [SerializeField] private Vector2 axisView;
 
     public List<Checkpoint> Checkpoint{ get; set; } = new();
     public int CurrentCheckpoint { get; set; } = 0;
+    
+    public Vector2 Axis { get; private set; } = Vector2.zero;
+    public bool IsJumping { get; set; } = false;
+    public bool IsDashing { get; set; } = false;
 
+    public bool IsRunning { get; set; } = false;
+    
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation(characterPosition.position);
-        sensor.AddObservation(Checkpoint[CurrentCheckpoint].transform.position);
+        var diff = Checkpoint[CurrentCheckpoint].transform.position - characterPosition.position;
+        sensor.AddObservation(diff);
     }
     public override void OnEpisodeBegin()
     {
-        characterPosition.localPosition = new Vector3(-187.734482f,4.97680664f,170.19281f);
+        characterPosition.localPosition = new Vector3(-210.086731f,0.976806641f,166.651978f);
+        Debug.Log("Episode has started");
+        CurrentCheckpoint = 0;
     }
     
     public override void OnActionReceived(ActionBuffers actions)
@@ -41,15 +49,27 @@ public class AICharacter : Agent
             2 => 1,
             _ => 0
         };
-        /*x = actions.ContinuousActions[0];
-        y = actions.ContinuousActions[1];*/
+        IsJumping = actions.DiscreteActions[2] switch
+        {
+            0 => false,
+            1 => true,
+            _ => false
+        };
+        IsDashing = actions.DiscreteActions[3] switch
+        {
+            0 => false,
+            1 => true,
+            _ => false
+        };
+        IsRunning = actions.DiscreteActions[4] switch
+        {
+            0 => false,
+            1 => true,
+            _ => false
+        };
         Axis = new Vector2(x, y);
         axisView = Axis;
-        if (Axis == Vector2.zero)
-        {
-            AddReward(-0.1f);
-        }
-        AddReward(-0.05f);
+        AddReward(-0.01f);
     }
     
 }
