@@ -2,22 +2,22 @@
     "CharacterAI": {
         "checkpoints": [
             {
-                "steps": 5693,
-                "file_path": "results\\ppo\\CharacterAI\\CharacterAI-5693.onnx",
-                "reward": -35.000002939254045,
-                "creation_time": 1687358441.1975138,
+                "steps": 0,
+                "file_path": "results\\ppo\\CharacterAI\\CharacterAI-0.onnx",
+                "reward": null,
+                "creation_time": 1687810948.297582,
                 "auxillary_file_paths": [
-                    "results\\ppo\\CharacterAI\\CharacterAI-5693.pt"
+                    "results\\ppo\\CharacterAI\\CharacterAI-0.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 5693,
+            "steps": 0,
             "file_path": "results\\ppo\\CharacterAI.onnx",
-            "reward": -35.000002939254045,
-            "creation_time": 1687358441.1975138,
+            "reward": null,
+            "creation_time": 1687810948.297582,
             "auxillary_file_paths": [
-                "results\\ppo\\CharacterAI\\CharacterAI-5693.pt"
+                "results\\ppo\\CharacterAI\\CharacterAI-0.pt"
             ]
         }
     },
