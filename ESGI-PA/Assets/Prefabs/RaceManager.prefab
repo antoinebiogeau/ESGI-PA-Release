@@ -3150,20 +3150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   raceConfig: {fileID: 0}
   players: []
-  checkpoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  checkpoints: []
 --- !u!1 &6886906231503621570
 GameObject:
   m_ObjectHideFlags: 0
