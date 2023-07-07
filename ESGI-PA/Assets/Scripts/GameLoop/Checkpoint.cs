@@ -1,44 +1,30 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 public class Checkpoint : MonoBehaviour
 {
-    private GameLoop loop;
-    public GameLoop Loop
-    {
-        get => loop;
-        set => loop = value;
-    }
+    public GameLoop Loop { get; set; }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player")) return;
-        other.TryGetComponent<PhysicCharacter>(out PhysicCharacter character);
-        if (character.isIAControlled && character.Components.aiModule.Checkpoint.IndexOf(this) == character.Components.aiModule.CurrentCheckpoint)
+        ManagePlayer(other);
+    }
+
+    private void ManagePlayer(Collider other)
+    {
+        if (!other.TryGetComponent(out Player player)) return;
+        var currentIndex = Loop.Checkpoints.IndexOf(this);
+        var lastIndex = Loop.Checkpoints.IndexOf(player.CurrentCheckpoint);
+        var checkpointCount = Loop.Checkpoints.Count; 
+        if (currentIndex >= 0 && currentIndex < checkpointCount * 0.1f && lastIndex > checkpointCount * 0.8)
         {
-            character.Components.aiModule.AddReward(1f);
-            Debug.Log("Checkpoint passed : " + character.Components.aiModule.CurrentCheckpoint);
-            character.Components.aiModule.CurrentCheckpoint++;
-           
+            player.TurnCount++;
+            Debug.Log("Incrementing Turn count");
         }
-        else
-        {
-            character.Components.aiModule.AddReward(-0.5f);
-            Debug.Log("Wrong checkpoint passed, subtracting reward as consequence");
-        }
-        /*int checkpointIndex = Loop.Checkpoints.IndexOf(gameObject.GetComponent<Checkpoint>());
-        var info = Loop.PlayerInfo[other.gameObject];
-        info.lastCheckpoint = info.currentCheckpoint;
-        info.currentCheckpoint = checkpointIndex;
-        if ((checkpointIndex == 0 && info.lastCheckpoint > Loop.Checkpoints.Count * 0.7f) )
-        {
-            info.turnCount++;
-        }
-        Debug.Log("Info : " + checkpointIndex + ":" + info.lastCheckpoint + ":" + info.turnCount);
-        Loop.PlayerInfo[other.gameObject] = info;*/
+        player.LastCheckpoint = player.CurrentCheckpoint;
+        player.CurrentCheckpoint = this;
+        Debug.Log($"Current index : {currentIndex} / Last index : {lastIndex} / Checkpoint count : {checkpointCount}");
     }
 }
+
+

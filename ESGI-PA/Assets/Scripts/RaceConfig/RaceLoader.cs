@@ -16,7 +16,6 @@ public class RaceLoader : MonoBehaviour
     
     [SerializeField] private UIManager uiManager;
     [SerializeField] private GameLoop loop;
-    [SerializeField] private GameObject checkpointsSource;
 
     private List<Checkpoint> _checkpoints;
     
@@ -38,12 +37,6 @@ public class RaceLoader : MonoBehaviour
         spawningPosition = config.respawnPositions;
         
         StartCoroutine(InstantiatePlayers());
-        if (!checkpointsSource) return;
-        for (var i = 0; i < checkpointsSource.transform.childCount; i++)
-        {
-            var child = checkpointsSource.transform.GetChild(i).GetComponent<Checkpoint>();
-            _checkpoints.Add(child);
-        }
     }
 
     private IEnumerator InstantiatePlayers()
@@ -78,15 +71,13 @@ public class RaceLoader : MonoBehaviour
         
         player.GetComponent<PhysicCharacter>().Components.camera.TryGetComponent<Camera>(out var playerCamera);
         SetCameraLayout(playerCamera);
-    
-    
-    
         player.transform.GetChild(player.transform.childCount - 1).TryGetComponent<Player>(out var playerInfo);
         uiManager.LinkUIToPlayer(playerInfo);
-        loop.Players.Add(playerInfo);
+        //loop.Players.Add(playerInfo);
         
         // playerInfo.Gameloop = loop;
         // playerInfo.TurnCount = config.turnCount;
+        loop.Players.Add(playerInfo);
         
 
         player.gameObject.transform.position = spawningPosition[playerJoined];

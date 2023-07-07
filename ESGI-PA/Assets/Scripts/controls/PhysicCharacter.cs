@@ -252,6 +252,7 @@ public class PhysicCharacter : MonoBehaviour
         components.collider.enabled = false;
         components.cameraScript.Locked = true;
         components.cameraScript.Target = activeVehicleProps.Components.vehicle;
+        components.player.transform.parent = activeVehicle.transform;
         components.model.SetActive(false);
         activeVehicleProps.LinkPlayer(Components.player);
     }
@@ -263,6 +264,7 @@ public class PhysicCharacter : MonoBehaviour
         components.cameraScript.Locked = false;
         components.cameraScript.Target = components.character;
         components.model.SetActive(true);
+        components.player.transform.parent = components.character;
         state = PlayerState.Active;
     }
 

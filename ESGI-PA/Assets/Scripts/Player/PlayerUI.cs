@@ -36,7 +36,7 @@ public class PlayerUI : MonoBehaviour
     {
         if (!_playerInfo) return;
         Debug.Log("Update UI");
-        turnText.text = $"Turn : {_playerInfo.CurrentTurn}/3";
+        turnText.text = $"Turn : {_playerInfo.TurnCount}/3";
         rankText.text = $"Rank : 0/8";
         /*if (!_loaded) return;
         info = loop.PlayerInfo[player];
