@@ -5,35 +5,26 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private List<Checkpoint> _checkpoints;
+    public Checkpoint CurrentCheckpoint { get; set; } = null;
 
-    public List<Checkpoint> Checkpoints
+    public Checkpoint LastCheckpoint { get; set; } = null;
+
+    [SerializeField] public int TurnCount = 0;
+
+    public float RankingScore { get; set; }
+
+    public int Rank { get; set; } = 0;
+    
+    public bool IsTurningBack { get; set; } = false;
+
+    private float _lastDistanceFromCurrent = 100000;
+
+    private void Update()
     {
-        get => _checkpoints;
-        set => _checkpoints = value;
+        if (!CurrentCheckpoint) return;
+        var distanceFromCurrent = Vector3.Distance(transform.position, CurrentCheckpoint.transform.position);
+        IsTurningBack = distanceFromCurrent < _lastDistanceFromCurrent;
     }
 
-    [SerializeField] private int currentCheckpoint = 0;
-    [SerializeField] private int lastCheckpoint;
-
-    public Checkpoint LastCheckpoint => _checkpoints[lastCheckpoint];
-
-    [SerializeField]private int currentTurn;
-    public int CurrentTurn => currentTurn;
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Triggering");
-        if (!other.TryGetComponent<Checkpoint>(out var checkpoint)) return;
-        var checkpointIndex = _checkpoints.IndexOf(checkpoint);
-        if (checkpointIndex < _checkpoints.Count / 2 && currentCheckpoint > _checkpoints.Count / 2)
-        {
-            currentTurn++;
-        }
-
-        lastCheckpoint = currentCheckpoint;
-        Debug.Log($"Last checkpoint : {lastCheckpoint}");
-        currentCheckpoint = checkpointIndex;
-    }
+    
 }
