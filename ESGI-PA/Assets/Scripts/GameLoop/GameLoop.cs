@@ -6,12 +6,14 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class GameLoop : MonoBehaviour
 {
+    [SerializeField] private Transform checkpointBatch;
     [SerializeField] private RaceConfiguration raceConfig;
-    [SerializeField] private List<Player> players;
-    [SerializeField] private List<Checkpoint> checkpoints;
+    public List<Player> Players { get; set; } = new();
+    
     private GameConfiguration gameConfig;
     private int _startCounter = 3;
 
@@ -21,29 +23,77 @@ public class GameLoop : MonoBehaviour
         set => gameConfig = value;
     }
 
+    public List<Checkpoint> Checkpoints { get; set; } = new();
+
     private void Start()
     {
-        StartCoroutine(StartCountdown());
+        RetrieveCheckpoints();
     }
 
     private void Update()
     {
-        if ((CheckEndOfGame() || Input.GetKeyDown(KeyCode.P)) && _startCounter <= 0)
+        if (CheckEndOfGame() && Players.Count > 0)
         {
+            Debug.Log($"Players before end : {Players.Count}");
             EndOfGame();
         }
     }
 
-    public void AddPlayer(Player player)
+    private void FixedUpdate()
     {
-        player.Checkpoints = checkpoints;
-        players.Add(player);
+        SetRankingScore();
+        SortRank();
     }
+
+    private void SetRankingScore()
+    {
+        foreach (var player in Players)
+        {
+            if (!player.CurrentCheckpoint)
+            {
+                player.RankingScore = 0;
+                continue;
+            }
+
+            player.RankingScore = player.TurnCount * 1000 + Checkpoints.IndexOf(player.CurrentCheckpoint) * 100;
+            Debug.Log($"Ranking score : {player.RankingScore}");
+        }
+    }
+
+    private void SortRank()
+    {
+        Players.Sort(((player, player1) =>
+        {
+            if (player.RankingScore > player1.RankingScore) return -1;
+            else if (player.RankingScore < player1.RankingScore)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        } ));
+        for (var i = 0; i < Players.Count; i++)
+        {
+            Players[i].Rank = i + 1;
+        }
+    }
+
+    private void RetrieveCheckpoints()
+    {
+        for (var i = 0; i < checkpointBatch.childCount; i++)
+        {
+            Checkpoints.Add(checkpointBatch.GetChild(i).GetComponent<Checkpoint>());
+            Checkpoints[i].Loop = this;
+        }
+    }
+    
 
 
     private bool CheckEndOfGame()
     {
-        return players.All(player => player.CurrentTurn >= raceConfig.turnCount);
+        return Players.All(player => player.TurnCount >= raceConfig.turnCount);
     }
 
     private void EndOfGame()
