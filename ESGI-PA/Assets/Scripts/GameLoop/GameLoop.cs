@@ -32,11 +32,51 @@ public class GameLoop : MonoBehaviour
 
     private void Update()
     {
-        if (CheckEndOfGame())
+        if (CheckEndOfGame() && Players.Count > 0)
         {
-            Debug.Log("Players before end : " + Players.Count);
-            Debug.Log("The end");
+            Debug.Log($"Players before end : {Players.Count}");
             EndOfGame();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        SetRankingScore();
+        SortRank();
+    }
+
+    private void SetRankingScore()
+    {
+        foreach (var player in Players)
+        {
+            if (!player.CurrentCheckpoint)
+            {
+                player.RankingScore = 0;
+                continue;
+            }
+
+            player.RankingScore = player.TurnCount * 1000 + Checkpoints.IndexOf(player.CurrentCheckpoint) * 100;
+            Debug.Log($"Ranking score : {player.RankingScore}");
+        }
+    }
+
+    private void SortRank()
+    {
+        Players.Sort(((player, player1) =>
+        {
+            if (player.RankingScore > player1.RankingScore) return -1;
+            else if (player.RankingScore < player1.RankingScore)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        } ));
+        for (var i = 0; i < Players.Count; i++)
+        {
+            Players[i].Rank = i + 1;
         }
     }
 

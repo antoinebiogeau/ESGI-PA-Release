@@ -11,6 +11,10 @@ public class Player : MonoBehaviour
 
     [SerializeField] public int TurnCount = 0;
 
+    public float RankingScore { get; set; }
+
+    public int Rank { get; set; } = 0;
+    
     public bool IsTurningBack { get; set; } = false;
 
     private float _lastDistanceFromCurrent = 100000;
@@ -21,4 +25,6 @@ public class Player : MonoBehaviour
         var distanceFromCurrent = Vector3.Distance(transform.position, CurrentCheckpoint.transform.position);
         IsTurningBack = distanceFromCurrent < _lastDistanceFromCurrent;
     }
+
+    
 }

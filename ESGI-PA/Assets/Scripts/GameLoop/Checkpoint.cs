@@ -15,7 +15,7 @@ public class Checkpoint : MonoBehaviour
         if (!other.TryGetComponent(out Player player)) return;
         var currentIndex = Loop.Checkpoints.IndexOf(this);
         var lastIndex = Loop.Checkpoints.IndexOf(player.CurrentCheckpoint);
-        var checkpointCount = Loop.Checkpoints.Count; 
+        var checkpointCount = Loop.Checkpoints.Count;
         if (currentIndex >= 0 && currentIndex < checkpointCount * 0.1f && lastIndex > checkpointCount * 0.8)
         {
             player.TurnCount++;
